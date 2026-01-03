@@ -40,7 +40,7 @@ The system consists of  **four major layers** :
 
 Below is the conceptual flow of the RAG pipeline used in this project.
 
-![RAG Pipeline]<img width="1312" height="720" alt="Screenshot 2026-01-03 132341" src="https://github.com/user-attachments/assets/bf0a0054-bdce-400c-8029-c2f06d8141a1" />
+<img width="1312" height="720" alt="Screenshot 2026-01-03 132341" src="https://github.com/user-attachments/assets/bf0a0054-bdce-400c-8029-c2f06d8141a1" />
 
 
 ### Flow Description
