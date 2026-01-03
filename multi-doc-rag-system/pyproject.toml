@@ -1,0 +1,11 @@
+[project]
+name = "src"
+version = "0.0.1"
+description = "An Advance RAG System for Multi-DOC Q&A"
+authors = [{name = "Jeet Majumder", email = "jeet0912majumder@gmail.com"}]
+
+[tool.setuptools]
+packages = {find = {}}
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}

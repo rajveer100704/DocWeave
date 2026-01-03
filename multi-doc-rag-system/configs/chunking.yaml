@@ -1,0 +1,5 @@
+chunking:
+  target_chunk_size: 500   # tokens
+  chunk_overlap: 100       # tokens
+
+

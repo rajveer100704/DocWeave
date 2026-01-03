@@ -1,0 +1,7 @@
+pipeline:
+  # Controls whether to rebuild the vector store on every run.
+  rebuild_vectorstore: true
+  # Output directory for any persisted artifacts (future extension).
+  artifacts_dir: artifacts/
+
+

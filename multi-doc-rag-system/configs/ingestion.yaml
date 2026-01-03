@@ -1,0 +1,6 @@
+documents:
+  # Local or remote documents to ingest. Paths can be absolute or relative to project root.
+  - path: data/raw/pdf/attention-is-all-you-need-Paper.pdf
+    enabled: true
+
+
