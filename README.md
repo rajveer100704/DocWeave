@@ -60,74 +60,129 @@ Below is the conceptual flow of the RAG pipeline used in this project.
 ### 1️⃣ Data Ingestion
 
 Supported inputs:
+- PDF, DOCX, TXT, Markdown
+- HTTP / HTTPS URLs
 
-* PDF
-* DOCX / DOC
-* TXT
-* Markdown
-* Web URLs
-
-Each document is extracted into raw text along with metadata such as:
-
-* source path
-* document type
-* page or section info
+Each document is extracted into:
+- Clean text
+- Metadata (source, document type, page/section info)
 
 ---
 
-### 2️⃣ Cleaning & Normalization
+### 2️⃣ Structure-Aware Cleaning & Normalization
 
-This stage ensures the text is  **LLM-friendly and consistent** .
+**Type-specific cleaning**
+- Markdown → formatting removal
+- Web → HTML/script stripping
+- PDF/DOCX → layout artifact cleanup
 
-**Structured Cleaning (type-specific):**
-
-* Markdown: remove formatting symbols
-* Web pages: strip HTML, scripts, styles
-* PDFs/DOCX: remove page artifacts, broken spacing
-
-**Normalization (general):**
-
-* whitespace normalization
-* newline cleanup
-* Unicode normalization
-* consistent paragraph formatting
+**Global normalization**
+- Unicode normalization
+- Whitespace and newline cleanup
+- Consistent paragraph formatting
 
 ---
 
-### 3️⃣ Chunking Strategy
+### 3️⃣ Adaptive Chunking Strategy
 
-Documents are split into chunks based on  **document length** , not file type.
+Chunking is **document-length aware**, not file-type dependent:
 
-* Small documents → larger chunks
-* Large documents → smaller chunks with overlap
+- Small documents → larger chunks
+- Large documents → smaller overlapping chunks
 
 This balances:
-
-* retrieval accuracy
-* LLM context limits
-* processing speed
+- Retrieval accuracy
+- LLM context constraints
+- Processing latency
 
 ---
 
 ### 4️⃣ Embeddings & Vector Store
 
-* **Embedding model:** Google DeepMind's Gemma 3 architecture based
+- **Embedding models:** Ollama / Gemma-based embeddings
+- **Vector store:** FAISS (Approximate Nearest Neighbor)
 
-  (e.g. `embeddinggemma`)
-* **Vector store:** FAISS
-
-Each chunk is embedded and stored for fast similarity search.
+Each chunk is embedded and indexed for efficient similarity search.
 
 ---
 
-### 5️⃣ Retrieval Pipeline
+### 5️⃣ Retrieval, Reranking & Diversification
 
-The retrieval stage follows a  **dynamic strategy** :
+Retrieval follows a **three-stage strategy**:
 
-1. Vector similarity search
-2. Cross-encoder reranking
-3. MMR (Maximal Marginal Relevance) for diversity
-4. Final selection
+1. Vector similarity search  
+2. Cross-encoder reranking  
+3. MMR (Maximal Marginal Relevance)  
+
+This ensures:
+- High semantic relevance
+- Low redundancy
+- Better topic coverage
+
+---
+
+## 🧠 Answer Generation Strategies
+
+DocWeave dynamically selects the generation strategy:
+
+### 🟢 Stuff Strategy (Small Context)
+- Single LLM call
+- Fast and cost-efficient
+- Used when retrieved context fits comfortably
+
+### 🔵 Map-Reduce Strategy (Large Context)
+- Chunk-level fact extraction (Map)
+- Deduplicated synthesis (Reduce)
+- Scales well for long documents
+
+---
+
+## 🧪 Evaluation Philosophy
+
+Evaluation focuses on:
+
+- Retrieval Recall@K
+- Answer Faithfulness
+- Semantic Relevance
+- End-to-End Latency
+
+Future extensions include:
+- Automated RAG benchmarks
+- Regression testing
+- Confidence scoring
+
+---
+
+## 🖥️ User Interface
+
+- Built using **Streamlit**
+- Backend logic embedded for simplicity
+- Supports:
+  - Local execution
+  - Cloud deployment
+
+---
+
+## 📂 Project Structure
+
+```text
+DocWeave/
+├── src/
+│   ├── ingestion/
+│   ├── preprocessing/
+│   ├── embedding/
+│   ├── vectorstore/
+│   ├── retrieval/
+│   ├── rag/
+│   ├── api/
+│   └── ui/
+├── configs/
+├── static/
+│   └── images/
+├── architecture.md
+├── evaluation.md
+├── demo.md
+└── README.md
 
 This ensures:
 
